@@ -4,14 +4,16 @@ spec = Gem::Specification.new do |s|
 	s.version = Noting::VERSION
 	s.author = 'Xiaoxing Hu'
 	s.email = 'dawnstar.hu@gmail.com'
+	s.platform = Gem::Platform::RUBY
+	s.summary = 'You advanced note manager.'
+	s.description = 'A tool for managing your markdown notes.'
+	s.license = 'MIT'
 	s.files = %w(
-	bin/noting
+	bin/note
 	lib/noting/version.rb
 	lib/noting.rb
 	lib/noting/noteman.rb
 	)
-	s.summary = 'You advanced note manager.'
-
 	s.bindir = 'bin'
-	s.executables << 'noting'
+	s.executables << 'note'
 end
