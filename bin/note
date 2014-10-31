@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
-require 'noting'
+require 'noteman'
 
-noteman = Noteman.new
+inbox = Inbox.new
 
-noteman.hi
+inbox.hi

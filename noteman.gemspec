@@ -1,6 +1,6 @@
-require File.join(File.dirname(__FILE__), 'lib', 'noting', 'version.rb')
+require File.join(File.dirname(__FILE__), 'lib', 'noteman', 'version.rb')
 spec = Gem::Specification.new do |s|
-	s.name = 'noting'
+	s.name = 'noteman'
 	s.version = Noting::VERSION
 	s.author = 'Xiaoxing Hu'
 	s.email = 'dawnstar.hu@gmail.com'
@@ -10,9 +10,9 @@ spec = Gem::Specification.new do |s|
 	s.license = 'MIT'
 	s.files = %w(
 	bin/note
-	lib/noting/version.rb
-	lib/noting.rb
-	lib/noting/noteman.rb
+	lib/noteman/version.rb
+	lib/noteman.rb
+	lib/noteman/inbox.rb
 	)
 	s.bindir = 'bin'
 	s.executables << 'note'
