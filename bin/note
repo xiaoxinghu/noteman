@@ -1,7 +1,23 @@
 #!/usr/bin/env ruby
 
+require 'gli'
 require 'noteman'
 
-inbox = Inbox.new
+noteman = Noteman.new
 
-inbox.hi
+include GLI::App
+
+program_desc 'A CLI note manager.'
+
+command :hi do |c|
+	c.action do |global_options,options,args|
+		noteman.hi
+	end
+end
+
+command :new do |c|
+	c.action do |global_options,options,args|
+	end
+end
+
+exit run(ARGV)

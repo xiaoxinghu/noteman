@@ -12,8 +12,11 @@ spec = Gem::Specification.new do |s|
 	bin/note
 	lib/noteman/version.rb
 	lib/noteman.rb
-	lib/noteman/inbox.rb
+	lib/noteman/noteman.rb
 	)
 	s.bindir = 'bin'
 	s.executables << 'note'
+
+	s.add_runtime_dependency('gli', '2.12.2')
+  s.add_runtime_dependency('deep_merge')
 end

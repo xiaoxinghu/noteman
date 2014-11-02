@@ -1,4 +1,4 @@
 require 'noteman/version.rb'
-require 'noteman/inbox.rb'
+require 'noteman/noteman.rb'
 
-NOTING_CONFIG_NAME = ".notemanrc"
+NOTEMAN_CONFIG_NAME = ".notemanrc"
