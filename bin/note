@@ -15,8 +15,17 @@ command :hi do |c|
 	end
 end
 
-command :new do |c|
+desc 'Show Cheatsheets'
+arg_name 'cheatsheet topic'
+command :cs do |c|
 	c.action do |global_options,options,args|
+		if args.length > 0
+			args.each do |arg|
+				noteman.get_cheatsheets arg
+			end
+		else
+			noteman.get_cheatsheets
+		end
 	end
 end
 
