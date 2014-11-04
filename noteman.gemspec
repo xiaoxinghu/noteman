@@ -4,6 +4,7 @@ spec = Gem::Specification.new do |s|
 	s.version = Noting::VERSION
 	s.author = 'Xiaoxing Hu'
 	s.email = 'dawnstar.hu@gmail.com'
+  s.homepage = 'https://github.com/xiaoxinghu/noteman'
 	s.platform = Gem::Platform::RUBY
 	s.summary = 'You advanced note manager.'
 	s.description = 'A tool for managing your markdown notes.'
@@ -12,11 +13,14 @@ spec = Gem::Specification.new do |s|
 	bin/note
 	lib/noteman/version.rb
 	lib/noteman.rb
-	lib/noteman/noteman.rb
+	lib/noteman/base_man.rb
+	lib/noteman/cheat_man.rb
+	lib/noteman/meta_parser.rb
 	)
 	s.bindir = 'bin'
 	s.executables << 'note'
 
 	s.add_runtime_dependency('gli', '2.12.2')
   s.add_runtime_dependency('deep_merge')
+  s.add_runtime_dependency('redcarpet')
 end
