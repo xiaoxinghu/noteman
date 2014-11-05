@@ -1,5 +1,3 @@
-require 'noteman/base_man'
-
 module Noteman
   class CheatMan < BaseMan
 

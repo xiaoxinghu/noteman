@@ -9,14 +9,7 @@ spec = Gem::Specification.new do |s|
 	s.summary = 'You advanced note manager.'
 	s.description = 'A tool for managing your markdown notes.'
 	s.license = 'MIT'
-	s.files = %w(
-	bin/note
-	lib/noteman/version.rb
-	lib/noteman.rb
-	lib/noteman/base_man.rb
-	lib/noteman/cheat_man.rb
-	lib/noteman/meta_parser.rb
-	)
+	s.files = Dir.glob("{bin,lib}/**/*") + %w(README.md)
 	s.bindir = 'bin'
 	s.executables << 'note'
 

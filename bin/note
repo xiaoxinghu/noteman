@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'gli'
-require 'noteman/cheat_man'
+require 'noteman'
 
 include GLI::App
 
@@ -19,6 +19,20 @@ command :cheat do |c|
   c.action do |global_options,options,args|
     man = Noteman::CheatMan.new
     man.show *args
+  end
+end
+
+desc 'capture new note'
+arg_name 'note'
+command :new do |c|
+  c.action do |global_options,options,args|
+    man = Noteman::CaptureMan.new
+    if args.length > 0
+      man.capture args.join ' '
+    else
+      input = man.fork_editor
+      man.capture input
+    end
   end
 end
 
