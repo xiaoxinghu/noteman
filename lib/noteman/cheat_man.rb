@@ -1,5 +1,6 @@
 module Noteman
-  class CheatMan < BaseMan
+  class CheatMan
+    include NoteManager
 
     def show(*tags)
       t = ['cheatsheet'] + tags
@@ -11,7 +12,7 @@ module Noteman
     end
 
     def view(file)
-      system("open -a \"#{@config['viewer']}\" #{file}")
+      system("open -a \"#{config['view_with']}\" #{file}")
     end
   end
 end

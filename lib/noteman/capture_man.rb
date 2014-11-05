@@ -1,5 +1,6 @@
 module Noteman
-  class CaptureMan < BaseMan
+  class CaptureMan
+    include NoteManager
     def capture(note)
       puts note
     end
