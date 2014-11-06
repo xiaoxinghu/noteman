@@ -14,5 +14,10 @@ module Noteman
     def view(file)
       system("open -a \"#{config['view_with']}\" #{file}")
     end
+
+    def output(file)
+      md = get_md File.read(file)
+      puts md
+    end
   end
 end
