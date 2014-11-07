@@ -16,6 +16,27 @@ module Noteman
       results
     end
 
+    def choose(items)
+      if items.length > 1
+        items.each_with_index do |item, i|
+          puts "% 3d: %s" % [i, item]
+        end
+        print "> "
+        num = STDIN.gets
+        return false if num =~ /^[a-z ]*$/i
+        result = items[num.to_i]
+      elsif items.length == 1
+        result = items[0]
+      else
+        result = false
+      end
+      result
+    end
+
+    def view(file)
+      system("open -a \"#{config['view_with']}\" #{file}")
+    end
+
     def fork_editor(input="")
       tmpfile = Tempfile.new('note')
 

@@ -6,13 +6,8 @@ module Noteman
       t = ['cheatsheet'] + tags
       sheets = search_by_tags *t
 
-      sheets.each do |s|
-        view s
-      end
-    end
-
-    def view(file)
-      system("open -a \"#{config['view_with']}\" #{file}")
+      sheet = choose sheets
+      view sheet
     end
 
     def output(file)
