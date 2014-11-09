@@ -7,18 +7,47 @@ include GLI::App
 
 program_desc 'A CLI note manager.'
 
-command :hi do |c|
+desc 'Do the action to all resulting notes.'
+switch [:a, :all]
+
+command :test do |c|
   c.action do |global_options,options,args|
-    puts 'hi'
+		words = ['Hello', 'test', 'as']
+		content = "this is as teSt, hello world."
+		if words.all? { |word| content.downcase.include? word.downcase }
+			puts 'yes'
+		else
+			puts 'no'
+		end
   end
 end
 
-desc 'Show Cheatsheets'
+desc 'Search for notes.'
 arg_name 'tags'
-command :cheat do |c|
+command :find do |c|
+	desc 'Search by fomula.'
+	c.flag [:f, :fomula]
+
+	desc 'Search by tags.'
+	c.flag [:t, :tags]
+
+	desc 'Search by keywords.'
+	c.flag [:k, :keywords]
+
   c.action do |global_options,options,args|
-    man = Noteman::CheatMan.new
-    man.show *args
+		nm = Noteman::NoteManager.new
+		nm.search
+		if options[:fomula]
+			nm.search_by_fomular options[:fomula].result
+		else
+			if options[:tags]
+				nm.by_tags(options[:tags].split(','))
+			end
+			if options[:keywords]
+				nm.by_keywords(options[:keywords].split)
+			end
+		end
+		nm.view_result
   end
 end
 

@@ -1,6 +1,5 @@
 require 'tempfile'
 require 'noteman/md_processor'
 require 'noteman/config'
+require 'noteman/note'
 require 'noteman/note_manager'
-require 'noteman/cheat_man'
-require 'noteman/capture_man'
