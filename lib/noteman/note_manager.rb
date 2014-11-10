@@ -1,106 +1,137 @@
 module Noteman
-	class NoteManager
-		include Config
+  class NoteManager
+    include Config
 
-		attr_accessor :notes, :result
+    attr_accessor :notes, :result, :tags
 
-		def initialize
-			@notes = []
-			Dir.chdir(File.expand_path(config['notes_in']))
-			Dir.glob("*.#{config['ends_with']}").each do |file|
-				@notes << Note.new(file)
-			end
-		end
+    def initialize
+      @notes = []
+      Dir.chdir(File.expand_path(config['notes_in']))
+      Dir.glob("*.#{config['ends_with']}").each do |file|
+        @notes << Note.new(file)
+      end
+    end
 
-		def search
-			@result = @notes
-			self
-		end
+    def search
+      @result = @notes
+      self
+    end
 
-		def by_tags(tags)
-			@result.delete_if { |note| not note.with_tags? tags }
-			self
-		end
+    def by_tags(tags)
+      @result.delete_if { |note| not note.with_tags? tags }
+      self
+    end
 
-		def by_keywords(keywords)
-			@result.delete_if { |note| not note.contains? keywords }
-			self
-		end
+    def by_keywords(keywords)
+      @result.delete_if { |note| not note.contains? keywords }
+      self
+    end
 
-		def search_by_fomular(name)
-			fomular = config['fomular'][name]
-			if fomular
-				search
-				tags = fomular['tags'].split(' ')
-				keywords = fomular['keywords'].split(' ')
-				if tags
-					by_tags tags
-				end
-				if keywords
-					by_keywords keywords
-				end
-			else
-				puts "No such fomular defined #{name}."
-			end
-			self
-		end
+    def search_by_fomular(name)
+      fomular = config['fomular'][name]
+      if fomular
+        search
+        tags = fomular['tags'].split(' ')
+        keywords = fomular['keywords'].split(' ')
+        if tags
+          by_tags tags
+        end
+        if keywords
+          by_keywords keywords
+        end
+      else
+        puts "No such fomular defined #{name}."
+      end
+      self
+    end
 
-		def choose(notes)
-			if notes.length > 1
-				notes.each_with_index do |note, i|
-					puts "% 3d: %s" % [i, note.file]
-				end
-				print "> "
-				num = STDIN.gets
-				return false if num =~ /^[a-z ]*$/i
-				chosen = notes[num.to_i]
-			elsif notes.length == 1
-				chosen = notes[0]
-			else
-				chosen = false
-			end
-			chosen
-		end
+    def capture(input, link=nil)
+      if link
+        content = "[#{input}](#{link})"
+      else
+        content = input
+      end
+      open(config['capture_to'], 'a') do |f|
+        f << "#{content}\n"
+      end
+    end
 
-		def view(file)
-			system("open -a \"#{config['view_with']}\" #{file}")
-		end
+    def choose(notes)
+      if notes.length > 1
+        notes.each_with_index do |note, i|
+          puts "% 3d: %s" % [i, note.file]
+        end
+        print "> "
+        num = STDIN.gets
+        return false if num =~ /^[a-z ]*$/i
+        chosen = notes[num.to_i]
+      elsif notes.length == 1
+        chosen = notes[0]
+      else
+        chosen = false
+      end
+      chosen
+    end
 
-		def view_result
-			chosen = choose result
-			view chosen.file
-		end
+    def view(file)
+      system("open -a \"#{config['view_with']}\" #{file}")
+    end
 
-		def fork_editor(input="")
-			tmpfile = Tempfile.new('note')
+    def view_result
+      if result.length == 0
+        puts 'No matching result found.'
+      else
+        chosen = choose result
+        view chosen.file
+      end
+    end
 
-			File.open(tmpfile.path,'w+') do |f|
-				f.puts input
-			end
+    def tags
+      if not defined? @tags
+        @tags = {}
+        notes.each do |note|
+          note.tags.each do |tag|
+            if not @tags.has_key? tag
+              @tags[tag] = 1
+            else
+              @tags[tag] += 1
+            end
+          end
+        end
+      end
+      @tags
+    end
 
-			pid = Process.fork { system("$EDITOR #{tmpfile.path}") }
+    def fork_editor(input="")
+      tmpfile = Tempfile.new('note')
 
-			trap("INT") {
-				Process.kill(9, pid) rescue Errno::ESRCH
-				tmpfile.unlink
-				tmpfile.close!
-				exit 0
-			}
+      File.open(tmpfile.path,'w+') do |f|
+        f.puts input
+      end
 
-			Process.wait(pid)
+      pid = Process.fork { system("$EDITOR #{tmpfile.path}") }
 
-			begin
-				if $?.exitstatus == 0
-					input = IO.read(tmpfile.path)
-				else
-					raise "Cancelled"
-				end
-			ensure
-				tmpfile.close
-				tmpfile.unlink
-			end
+      trap("INT") {
+        Process.kill(9, pid) rescue Errno::ESRCH
+        tmpfile.unlink
+        tmpfile.close!
+        exit 0
+      }
 
-			input
-		end
-	end
+      Process.wait(pid)
+
+      begin
+        if $?.exitstatus == 0
+          input = IO.read(tmpfile.path)
+        else
+          raise "Cancelled"
+        end
+      ensure
+        tmpfile.close
+        tmpfile.unlink
+      end
+
+      input
+    end
+  end
 end
