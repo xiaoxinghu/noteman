@@ -19,4 +19,6 @@ spec = Gem::Specification.new do |s|
 	s.add_runtime_dependency 'gli', '2.12.2'
   s.add_runtime_dependency 'deep_merge', '~> 1.0'
   s.add_runtime_dependency 'redcarpet', '~> 3.2'
+  s.add_runtime_dependency 'highline', '~> 1.6'
+  s.add_runtime_dependency 'curses', '~> 1.0.1'
 end
