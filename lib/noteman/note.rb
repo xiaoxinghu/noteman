@@ -1,6 +1,6 @@
 module Noteman
 	class Note
-		include MDProcessor
+		include MDProcessor, Config
 		attr_accessor :content, :metadata, :tags, :body, :file
 
 		def initialize(file)
@@ -30,5 +30,10 @@ module Noteman
 		def contains?(keywords)
 			keywords.all? { |word| body.downcase.include? word.downcase }
 		end
+
+    def view
+			system("open -a \"#{config['view_with']}\" #{file}")
+    end
+
 	end
 end

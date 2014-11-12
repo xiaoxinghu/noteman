@@ -5,18 +5,17 @@ require 'noteman'
 
 include GLI::App
 include Noteman::Display
-include Noteman::UI
 
 program_desc 'A CLI note manager.'
 
 desc 'Do the action to all resulting notes.'
 switch [:a, :all]
 
+default_command :find
+
 command :test do |c|
+  c.desc 'Developer only.'
   c.action do |global_options,options,args|
-    content = ['hello world', 'this is a good one', 'cool']
-    text = find_note
-		puts "content: #{text}"
   end
 end
 
@@ -26,21 +25,30 @@ command :find do |c|
   c.desc 'Search by fomula.'
   c.flag [:f, :fomula]
 
-  c.desc 'Search by tags.'
-  c.flag [:t, :tags]
-
   c.action do |global_options,options,args|
     nm = Noteman::NoteManager.search
     if options[:fomula]
       nm.search_by_fomular options[:fomula].result
-    elsif options[:tags]
-      nm.by_tags(options[:tags].split(','))
     end
 
     if args.length > 0
-      nm.by_keywords args
+      tags = []
+      keywords = []
+      args.each do |arg|
+        if arg.start_with? '@'
+          tags << arg.tr('@', '')
+        else
+          keywords << arg
+        end
+      end
+      nm.by_tags tags
+      nm.by_keywords keywords
+      nm.result.each { |n| puts n.file }
+    else
+      note = Noteman::Finder.new.find_note
+      note.view
     end
-    nm.view_result
+
   end
 end
 
