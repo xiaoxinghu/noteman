@@ -1,10 +1,7 @@
 module Noteman
   class NoteManager
     include Config
-
     attr_accessor :notes, :result, :tags
-
-
 
     def initialize
       @notes = []

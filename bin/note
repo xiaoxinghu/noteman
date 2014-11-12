@@ -13,12 +13,6 @@ switch [:a, :all]
 
 default_command :find
 
-command :test do |c|
-  c.desc 'Developer only.'
-  c.action do |global_options,options,args|
-  end
-end
-
 desc 'Search for notes.'
 arg_name 'keywords'
 command :find do |c|
@@ -48,7 +42,6 @@ command :find do |c|
       note = Noteman::Finder.new.find_note
       note.view
     end
-
   end
 end
 
