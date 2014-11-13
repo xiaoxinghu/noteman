@@ -43,11 +43,14 @@ module Noteman
 				notes = []
 				while true
 					ch = @search_box.getch
+					draw_message_box "#{ch}"
 					case ch
 					when KEY_RESIZE
 						next
 					when 10 # enter
 						break
+					when 27 # esc
+						return
 					when 127 # backspace
 						if text.length > 0
 							text = text.slice(0, text.length - 1)
@@ -83,8 +86,9 @@ module Noteman
 
 		def draw_search_box(text='')
 			@search_box.clear
-			@search_box.box('|', '-')
+			@search_box.box(' ', ' ')
 			@search_box.setpos(1, 1)
+			@search_box.attrset(A_BOLD)
 			@search_box.addstr text
 			@search_box.refresh
 		end

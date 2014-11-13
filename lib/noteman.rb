@@ -1,7 +1,9 @@
 require 'tempfile'
-require 'noteman/md_processor'
-require 'noteman/config'
-require 'noteman/display'
-require 'noteman/finder'
-require 'noteman/note'
-require 'noteman/note_manager'
+
+Gem.find_files("noteman/**/*.rb").each do |f| 
+	require f
+end
+
+Dir["#{Dir.home}/.noteman/plugins/*.rb"].each do |f|
+	require f
+end
