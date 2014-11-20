@@ -21,4 +21,5 @@ spec = Gem::Specification.new do |s|
   s.add_runtime_dependency 'redcarpet', '~> 3.2'
   s.add_runtime_dependency 'highline', '~> 1.6'
   s.add_runtime_dependency 'curses', '~> 1.0'
+  s.add_runtime_dependency 'dropbox-sdk', '~> 1.6'
 end

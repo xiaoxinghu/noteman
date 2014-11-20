@@ -5,6 +5,7 @@ require 'noteman'
 
 include GLI::App
 include Noteman::Display
+include Noteman::Dropbox
 
 program_desc 'A CLI note manager.'
 
@@ -15,7 +16,7 @@ default_command :find
 
 command :test do |c|
 	c.action do |global_options,options,args|
-		Plugin.new.hello
+    sync
 	end
 end
 
