@@ -65,6 +65,10 @@ module Noteman
       end
     end
 
+    def inbox
+      notes.select { |n| n.file == config['capture_to'] }.first
+    end
+
     def choose(notes)
       if notes.length > 1
         notes.each_with_index do |note, i|

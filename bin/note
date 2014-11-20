@@ -85,4 +85,11 @@ command :new do |c|
 	end
 end
 
+desc 'Show the inbox.'
+command :inbox do |c|
+	c.action do |global_options,options,args|
+    Noteman::NoteManager.search.inbox.view
+	end
+end
+
 exit run(ARGV)
