@@ -31,7 +31,7 @@ The first time you run `noteman` by invoking the command `note` will generate th
 ``` yaml
 ---
 notes_in: "~/notes"
-view_with: marked 2
+view_with: Marked 2
 capture_to: capture.md
 ends_with: md
 home: "~/.noteman"
