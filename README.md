@@ -41,7 +41,7 @@ The config file is stored in "~/.notemanrc".
 
 ## Usage
 
-You can always invoke `note help` to see a list commands. But here I will describe the basic functions that current version provides.
+You can always invoke `note help` to see a list of commands. But here I will describe the basic functions that current version provides.
 
 ### Capture notes
 
