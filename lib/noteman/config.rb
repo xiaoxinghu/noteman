@@ -13,16 +13,16 @@ module Noteman
         @config['capture_to'] ||= "capture.md"
         @config['ends_with'] ||= "md"
         @config['home'] ||= "~/.noteman"
-        @config['state_file'] ||= "state.json"
-        @config['dropbox_path'] ||= "/notes"
-        @config['fomula'] ||= {}
-        @config['fomula']['cheatsheets'] ||= {
-          'tags' => 'cheatsheet'
-        }
-        @config['fomula']['drafts'] ||= {
-          'tags' => 'draft post',
-          'tags_bool' => 'AND'
-        }
+        # @config['state_file'] ||= "state.json"
+        # @config['dropbox_path'] ||= "/notes"
+        # @config['fomula'] ||= {}
+        # @config['fomula']['cheatsheets'] ||= {
+        #   'tags' => 'cheatsheet'
+        # }
+        # @config['fomula']['drafts'] ||= {
+        #   'tags' => 'draft post',
+        #   'tags_bool' => 'AND'
+        # }
 
         File.open(NOTEMAN_CONFIG, 'w') { |yf| YAML::dump(config, yf) }
         FileUtils.mkdir_p @config['home']
