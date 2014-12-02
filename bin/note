@@ -5,7 +5,6 @@ require 'noteman'
 
 include GLI::App
 include Noteman::Display
-include Noteman::Dropbox
 
 program_desc 'A CLI note manager.'
 
@@ -14,83 +13,77 @@ switch [:a, :all]
 
 default_command :find
 
-command :test do |c|
-	c.action do |global_options,options,args|
-    sync
-	end
-end
-
 desc 'Search for notes.'
 arg_name 'keywords'
 command :find do |c|
-	c.desc 'Search by fomula.'
-	c.flag [:f, :fomula]
+  c.desc 'Search by fomula.'
+  c.flag [:f, :fomula]
 
-	c.action do |global_options,options,args|
-		nm = Noteman::NoteManager.search
-		if options[:fomula]
-			nm.search_by_fomular options[:fomula].result
-		end
+  c.action do |global_options,options,args|
+    nm = Noteman::NoteManager.search
+    if options[:fomula]
+      nm.search_by_fomular options[:fomula].result
+    end
 
-		if args.length > 0
-			tags = []
-			keywords = []
-			args.each do |arg|
-				if arg.start_with? '@'
-					tags << arg.tr('@', '')
-				else
-					keywords << arg
-				end
-			end
-			nm.by_tags tags
-			nm.by_keywords keywords
-			nm.result.each { |n| puts n.file }
-		else
-			note = Noteman::Finder.new.find_note
-			if note
-				note.view
-			end
-		end
+    if args.length > 0
+      tags = []
+      keywords = []
+      args.each do |arg|
+	if arg.start_with? '@'
+	  tags << arg.tr('@', '')
+	else
+	  keywords << arg
 	end
+      end
+      nm.by_tags tags
+      nm.by_keywords keywords
+      nm.result.each { |n| puts n.file }
+    else
+      note = Noteman::Finder.new.find_note
+      if note
+	note.view
+      end
+    end
+  end
 end
 
 desc 'List all tags.'
 command :tags do |c|
-	c.desc 'List results one per line, to assist with shell completion.'
-	c.switch [:c]
+  c.desc 'List results one per line, to assist with shell completion.'
+  c.switch [:c]
 
-	c.action do |global_options,options,args|
-		nm = Noteman::NoteManager.search
-		if options[:c]
-			nm.tags.keys.each { |tag| puts tag }
-		else
-			output_tags nm.tags
-		end
-	end
+  c.action do |global_options,options,args|
+    nm = Noteman::NoteManager.search
+    if options[:c]
+      nm.tags.keys.each { |tag| puts tag }
+    else
+      output_tags nm.tags
+    end
+  end
 end
 
 desc 'Capture new note.'
 arg_name 'note'
 command :new do |c|
-	c.desc 'Insert link.'
-	c.flag [:l, :link]
+  c.desc 'Insert link.'
+  c.flag [:l, :link]
 
-	c.action do |global_options,options,args|
-		nm = Noteman::NoteManager.search
-		if args.length > 0
-			nm.capture(args.join(' '), options[:link])
-		else
-			input = nm.fork_editor
-			nm.capture input
-		end
-	end
+  c.action do |global_options,options,args|
+    nm = Noteman::NoteManager.search
+    if args.length > 0
+      nm.capture(args.join(' '), options[:link])
+    else
+      input = nm.fork_editor
+      nm.capture input
+    end
+  end
 end
 
 desc 'Show the inbox.'
 command :inbox do |c|
-	c.action do |global_options,options,args|
+  c.action do |global_options,options,args|
     Noteman::NoteManager.search.inbox.view
-	end
+  end
 end
 
 exit run(ARGV)

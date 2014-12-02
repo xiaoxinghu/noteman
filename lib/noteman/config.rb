@@ -8,7 +8,7 @@ module Noteman
     def config
       if not defined? @config
         @config = read_from_file
-        @config['notes_in'] ||= "~/io"
+        @config['notes_in'] ||= "~/notes"
         @config['view_with'] ||= "Marked 2"
         @config['capture_to'] ||= "capture.md"
         @config['ends_with'] ||= "md"
